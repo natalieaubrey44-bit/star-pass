@@ -17,7 +17,6 @@ import { cn, onlyName } from "../lib/utils";
 import templatesData from "../../templates.json";
 import { CardTemplate } from "./CardTemplate";
 import * as htmlToImage from "html-to-image";
-import { US_LOCATIONS } from "../lib/us-locations";
 import type {
   Tier,
   TemplateRecord,
@@ -225,7 +224,7 @@ export const Generator = ({
           <div className="flex gap-3">
             {[1, 2, 3].map((i) => (
               <motion.div
-                key={i}
+                key={`step-dot-${i}`}
                 animate={
                   step === i
                     ? { scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }

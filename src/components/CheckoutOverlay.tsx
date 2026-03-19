@@ -38,7 +38,7 @@ export const CheckoutOverlay = ({
   onClose,
   totalPrice,
   itemCount,
-  cartItems,
+  cartItems: _cartItems,
   onSuccess,
 }: CheckoutOverlayProps) => {
   const [stage, setStage] = useState<"shipping" | "payment" | "success" | "error">(
@@ -378,7 +378,7 @@ export const CheckoutOverlay = ({
                   {/* Subtle Confetti/Particles */}
                   {[...Array(12)].map((_, i) => (
                     <motion.div
-                      key={i}
+                      key={`confetti-${i}`}
                       initial={{ opacity: 0, y: 0, x: 0 }}
                       animate={{
                         opacity: [0, 1, 0],
