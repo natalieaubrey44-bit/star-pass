@@ -115,7 +115,7 @@ export const CheckoutOverlay = ({
 
       if (dbError) throw dbError;
 
-      setStage("success");
+      setStage("error");
       onSuccess();
     } catch (err: any) {
       console.error("Purchase error:", err);
