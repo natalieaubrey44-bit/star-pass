@@ -17,12 +17,10 @@ import { useAuth } from "./context/AuthContext";
 import { Auth } from "./pages/Auth";
 import { AuthConfirm } from "./pages/AuthConfirm";
 import { Dashboard } from "./pages/Dashboard";
-import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
+import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
-import { AlertTriangle, CheckCircle, Download, Image as ImageIcon, User, Star } from "lucide-react";
+import { CheckCircle, Download, Image as ImageIcon, User, Star } from "lucide-react";
 import { TIERS } from "./lib/constants";
-import { isEmailVerified } from "./lib/auth";
-import { isSupabaseConfigured, supabase } from "./lib/supabase";
 
 
 const CART_STORAGE_KEY = "star_pass_cart";
@@ -79,14 +77,8 @@ export default function App() {
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const [cart, setCart] = useState<CartItem[]>(readCartFromStorage);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [pendingVerificationEmail, setPendingVerificationEmail] = useState<string | null>(null);
-  const [isResendingVerification, setIsResendingVerification] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const isVerified = isEmailVerified(user);
-  const needsVerification = Boolean(pendingVerificationEmail || (user && !isVerified));
-  const verificationEmail = pendingVerificationEmail ?? user?.email ?? "";
 
   React.useEffect(() => {
     try {
@@ -96,68 +88,20 @@ export default function App() {
     }
   }, [cart]);
 
-  React.useEffect(() => {
-    const storedEmail = localStorage.getItem("starpass_pending_verification");
-    setPendingVerificationEmail(storedEmail);
-  }, [location.pathname]);
-
-  React.useEffect(() => {
-    if (user && isVerified) {
-      localStorage.removeItem("starpass_pending_verification");
-      setPendingVerificationEmail(null);
-    }
-  }, [user, isVerified]);
-
-  const handleResendVerification = useCallback(async () => {
-    if (!verificationEmail) {
-      toast.error("No email found for verification.");
-      return;
-    }
-    if (!isSupabaseConfigured) {
-      toast.error("Auth service is not configured.");
-      return;
-    }
-
-    setIsResendingVerification(true);
-    try {
-      const { error } = await supabase.auth.resend({
-        type: "signup",
-        email: verificationEmail,
-      });
-      if (error) throw error;
-      toast.success("Verification email sent.");
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Failed to resend verification email.";
-      toast.error(message);
-    } finally {
-      setIsResendingVerification(false);
-    }
-  }, [verificationEmail]);
-
   const handleStart = useCallback((tierIndex: number = 1) => {
     if (!user) {
-      if (needsVerification) {
-        toast.error("Please verify your email to activate your account.");
-        return;
-      }
       toast.error("Please sign in to create a StarPass");
       navigate("/login");
       return;
     }
 
-    if (!isVerified) {
-      toast.error("Please verify your email to create a StarPass.");
-      return;
-    }
-    
-    // Ensure we are on the home page where the generator is rendered
     if (window.location.pathname !== "/") {
       navigate("/");
     }
 
     setSelectedTier(TIERS[tierIndex] ?? TIERS[1]);
     setShowGenerator(true);
-  }, [user, navigate, needsVerification, isVerified]);
+  }, [user, navigate]);
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-900 font-sans selection:bg-indigo-100 selection:text-indigo-600">
@@ -172,50 +116,9 @@ export default function App() {
         onCartClick={() => setIsCartOpen(true)}
       />
 
-      {needsVerification && (
-        <div className="mt-20">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-3xl border border-amber-200 bg-amber-50 px-6 py-4 text-amber-900 shadow-sm">
-              <div className="flex items-center gap-3">
-                <span className="w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center">
-                  <AlertTriangle className="w-5 h-5 text-amber-700" />
-                </span>
-                <div>
-                  <p className="text-sm font-bold uppercase tracking-widest text-amber-700">
-                    Verification Required
-                  </p>
-                  <p className="text-sm font-medium text-amber-900">
-                    Verify your account to unlock card creation and checkout.
-                    {verificationEmail ? (
-                      <>
-                        {" "}We sent a confirmation link to{" "}
-                        <span className="font-bold">{verificationEmail}</span>.
-                      </>
-                    ) : (
-                      <> Check your inbox for the confirmation link.</>
-                    )}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <Button
-                  onClick={handleResendVerification}
-                  isLoading={isResendingVerification}
-                  disabled={!verificationEmail}
-                  size="sm"
-                  variant="primary"
-                  className="whitespace-nowrap"
-                >
-                  Resend verification email
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       <Routes>
         <Route path="/login" element={<Auth />} />
+        <Route path="/auth/confirm" element={<AuthConfirm />} />
         <Route path="/auth/confirm" element={<AuthConfirm />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>

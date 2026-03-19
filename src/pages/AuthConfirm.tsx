@@ -1,12 +1,13 @@
 /**
- * AuthConfirm.tsx — Handles the email confirmation redirect from Supabase.
- * Supabase appends a token to the URL hash after the user clicks the
- * confirmation link. This page processes that token, confirms the session,
- * and redirects the user to the dashboard on success or back to login on failure.
+ * AuthConfirm.tsx — Safety-net route for /auth/confirm.
  *
- * Route: /auth/confirm
- * Add this route to App.tsx:
- *   <Route path="/auth/confirm" element={<AuthConfirm />} />
+ * With passwordless OTP, verification happens directly in Auth.tsx
+ * via verifyOtp(). This page is kept as a fallback in case any old
+ * email confirmation links (from the previous password-based flow)
+ * are still floating around in inboxes. It attempts to pick up a
+ * Supabase session from the URL hash and redirects accordingly.
+ *
+ * Route: /auth/confirm (registered in App.tsx)
  */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,71 +16,66 @@ import { toast } from "sonner";
 import { motion } from "motion/react";
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 
+type Status = "loading" | "success" | "error";
+
 export const AuthConfirm: React.FC = () => {
   const navigate = useNavigate();
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const [status, setStatus] = useState<Status>("loading");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const handleConfirmation = async () => {
+    const handle = async () => {
       try {
-        // Supabase puts the token in the URL hash as:
-        // /auth/confirm#access_token=...&type=signup
-        // getSession() automatically picks it up from the hash
+        // Check if Supabase already picked up a session from the URL hash
         const { data, error } = await supabase.auth.getSession();
-
         if (error) throw error;
 
         if (data.session) {
-          // Session established — email is confirmed
           localStorage.removeItem("starpass_pending_verification");
           setStatus("success");
-          toast.success("Email confirmed! Welcome to StarPass Studio.");
-
-          // Give the user a moment to see the success screen
-          setTimeout(() => navigate("/dashboard"), 2000);
+          toast.success("Signed in successfully!");
+          setTimeout(() => navigate("/dashboard"), 1800);
           return;
         }
 
-        // No session yet — try exchanging the token from the hash manually
-        // This handles the case where getSession() doesn't auto-process the hash
-        const hashParams = new URLSearchParams(
+        // Try to exchange token from URL hash manually (legacy link flow)
+        const hash = new URLSearchParams(
           window.location.hash.replace("#", "?")
         );
-        const accessToken = hashParams.get("access_token");
-        const refreshToken = hashParams.get("refresh_token");
-        const type = hashParams.get("type");
+        const accessToken = hash.get("access_token");
+        const refreshToken = hash.get("refresh_token");
 
-        if (accessToken && (type === "signup" || type === "email_change")) {
-          const { error: setError } = await supabase.auth.setSession({
+        if (accessToken) {
+          const { error: setErr } = await supabase.auth.setSession({
             access_token: accessToken,
             refresh_token: refreshToken ?? "",
           });
-
-          if (setError) throw setError;
+          if (setErr) throw setErr;
 
           localStorage.removeItem("starpass_pending_verification");
           setStatus("success");
-          toast.success("Email confirmed! Welcome to StarPass Studio.");
-          setTimeout(() => navigate("/dashboard"), 2000);
+          toast.success("Signed in successfully!");
+          setTimeout(() => navigate("/dashboard"), 1800);
           return;
         }
 
-        // No token found at all
-        throw new Error("No confirmation token found. The link may have expired.");
+        // No session and no token — redirect to login
+        throw new Error(
+          "This link has expired or is invalid. Please sign in again."
+        );
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : "Email confirmation failed.";
+          err instanceof Error
+            ? err.message
+            : "Something went wrong. Please try again.";
         setErrorMessage(message);
         setStatus("error");
         toast.error(message);
-
-        // Redirect back to login after a short delay
         setTimeout(() => navigate("/login"), 3000);
       }
     };
 
-    handleConfirmation();
+    handle();
   }, [navigate]);
 
   return (
@@ -96,7 +92,7 @@ export const AuthConfirm: React.FC = () => {
             </div>
             <div className="space-y-2">
               <h2 className="text-2xl font-bold text-gray-900">
-                Confirming your email...
+                Signing you in...
               </h2>
               <p className="text-gray-500 font-medium text-sm">
                 Please wait a moment.
@@ -112,10 +108,10 @@ export const AuthConfirm: React.FC = () => {
             </div>
             <div className="space-y-2">
               <h2 className="text-2xl font-bold text-gray-900">
-                Email Confirmed!
+                Signed in!
               </h2>
               <p className="text-gray-500 font-medium text-sm">
-                Redirecting you to your dashboard...
+                Redirecting to your dashboard...
               </p>
             </div>
           </>
@@ -128,13 +124,13 @@ export const AuthConfirm: React.FC = () => {
             </div>
             <div className="space-y-2">
               <h2 className="text-2xl font-bold text-gray-900">
-                Confirmation Failed
+                Link Expired
               </h2>
-              <p className="text-gray-500 font-medium text-sm">
+              <p className="text-gray-500 font-medium text-sm leading-relaxed">
                 {errorMessage}
               </p>
               <p className="text-xs text-gray-400">
-                Redirecting you back to login...
+                Redirecting you back to sign in...
               </p>
             </div>
           </>
