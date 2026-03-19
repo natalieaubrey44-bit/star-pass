@@ -188,7 +188,7 @@ export const CheckoutOverlay = ({
             <div className="p-6">
               {stage === "shipping" && (
                 <form onSubmit={handleShippingSubmit} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">
                         House / Building
@@ -257,7 +257,7 @@ export const CheckoutOverlay = ({
                       onCityChange={(c) =>
                         setShippingData((prev) => ({ ...prev, city: c }))
                       }
-                      className="col-span-2"
+                      className="sm:col-span-2"
                     />
                     <div className="space-y-1">
                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">

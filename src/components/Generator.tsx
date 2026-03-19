@@ -425,8 +425,8 @@ export const Generator = ({
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1.5 col-span-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-1.5 sm:col-span-2">
                           <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] pl-1">
                             Your Name
                           </label>
@@ -448,7 +448,7 @@ export const Generator = ({
                           selectedCity={selectedCity}
                           onStateChange={setSelectedState}
                           onCityChange={setSelectedCity}
-                          className="col-span-2"
+                          className="sm:col-span-2"
                         />
                       </div>
                     </div>

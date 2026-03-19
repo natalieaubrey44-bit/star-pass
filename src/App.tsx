@@ -12,7 +12,7 @@ import { Generator } from "./components/Generator";
 import { CartOverlay } from "./components/CartOverlay";
 import { Button } from "./components/ui/Button";
 import { PageSection } from "./components/PageSection";
-import type { Tier, CartItem } from "./types";
+import type { Tier, CartItem, CartItemStored } from "./types";
 import { useAuth } from "./context/AuthContext";
 import { Auth } from "./pages/Auth";
 import { Dashboard } from "./pages/Dashboard";
@@ -24,13 +24,41 @@ import { isEmailVerified } from "./lib/auth";
 import { isSupabaseConfigured, supabase } from "./lib/supabase";
 
 
+const CART_STORAGE_KEY = "star_pass_cart";
+
+const stripCartForStorage = (items: CartItem[]): CartItemStored[] =>
+  items.map((item) => {
+    const { previewUrl, formData, ...rest } = item;
+    const { previewUrl: _previewUrl, ...restForm } = formData;
+    return { ...rest, formData: restForm };
+  });
+
 /** Safe read of cart from localStorage; invalid JSON or wrong shape falls back to [] */
 function readCartFromStorage(): CartItem[] {
   try {
-    const raw = localStorage.getItem("star_pass_cart");
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as unknown;
-    return Array.isArray(parsed) ? (parsed as CartItem[]) : [];
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed
+      .filter((item) => item && typeof item === "object")
+      .map((item) => {
+        const stored = item as CartItemStored;
+        const formData =
+          stored.formData && typeof stored.formData === "object"
+            ? stored.formData
+            : ({} as CartItemStored["formData"]);
+
+        return {
+          ...(stored as Omit<CartItem, "formData" | "previewUrl">),
+          formData: {
+            ...formData,
+            previewUrl: "",
+          },
+          previewUrl: "",
+        } as CartItem;
+      });
   } catch {
     return [];
   }
@@ -60,7 +88,11 @@ export default function App() {
   const verificationEmail = pendingVerificationEmail ?? user?.email ?? "";
 
   React.useEffect(() => {
-    localStorage.setItem("star_pass_cart", JSON.stringify(cart));
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(stripCartForStorage(cart)));
+    } catch {
+      // Ignore storage errors (quota, private mode) to avoid breaking the UI.
+    }
   }, [cart]);
 
   React.useEffect(() => {

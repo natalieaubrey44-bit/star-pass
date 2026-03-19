@@ -39,14 +39,20 @@ export interface CardFormData {
   alignment: string;
 }
 
-/** Single cart line item (persisted to localStorage) */
+/** Single cart line item (in-memory) */
 export interface CartItem {
   id: string;
   formData: CardFormData;
   tier: Tier;
   celebrityName: string;
-  previewUrl: string;
+  previewUrl?: string;
 }
+
+/** Lightweight cart payload stored in localStorage (no base64 previews). */
+export type CardFormDataStored = Omit<CardFormData, "previewUrl">;
+export type CartItemStored = Omit<CartItem, "previewUrl" | "formData"> & {
+  formData: CardFormDataStored;
+};
 
 /** Shape of templates.json */
 export interface TemplatesPayload {

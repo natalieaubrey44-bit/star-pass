@@ -4,9 +4,13 @@
  */
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, ShoppingCart, Trash2, ArrowRight, Wallet } from "lucide-react";
+import { X, ShoppingCart, Trash2, ArrowRight, Wallet, Image as ImageIcon } from "lucide-react";
 import { CheckoutOverlay } from "./CheckoutOverlay";
-import type { CartItem } from "../types";
+import templatesData from "../../templates.json";
+import type { CartItem, TemplatesPayload } from "../types";
+
+const templates = (templatesData as TemplatesPayload).templates;
+const templatePathById = new Map(templates.map((template) => [template.id, template.path]));
 
 interface CartOverlayProps {
   isOpen: boolean;
@@ -73,11 +77,19 @@ export const CartOverlay = ({ isOpen, onClose, cart, onRemove, onClear }: CartOv
                     </div>
                   </div>
                 ) : (
-                  cart.map((item) => (
-                    <div key={item.id} className="bg-gray-50/50 border border-gray-100 rounded-2xl p-4 flex gap-4 group">
-                      <div className="w-20 h-24 bg-gray-200 rounded-xl overflow-hidden shrink-0 border border-black/5 shadow-inner">
-                        <img src={item.previewUrl} alt="Preview" className="w-full h-full object-cover" />
-                      </div>
+                  cart.map((item) => {
+                    const fallbackSrc = templatePathById.get(item.formData?.templateId ?? "") ?? "";
+                    const imageSrc = item.previewUrl || fallbackSrc;
+
+                    return (
+                      <div key={item.id} className="bg-gray-50/50 border border-gray-100 rounded-2xl p-4 flex gap-4 group">
+                        <div className="w-20 h-24 bg-gray-200 rounded-xl overflow-hidden shrink-0 border border-black/5 shadow-inner flex items-center justify-center">
+                          {imageSrc ? (
+                            <img src={imageSrc} alt="Preview" className="w-full h-full object-cover" />
+                          ) : (
+                            <ImageIcon className="w-6 h-6 text-gray-400" />
+                          )}
+                        </div>
                       <div className="flex-1 min-w-0 py-1">
                         <div className="flex justify-between items-start">
                           <div>
@@ -96,7 +108,8 @@ export const CartOverlay = ({ isOpen, onClose, cart, onRemove, onClear }: CartOv
                         <p className="mt-3 font-black text-gray-900">${item.tier.price}.00</p>
                       </div>
                     </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
 
