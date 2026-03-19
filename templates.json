@@ -1,0 +1,511 @@
+{
+  "templates": [
+    {
+      "id": "keanu-reeves",
+      "name": "Keanu Reeves",
+      "tier": "Silver",
+      "path": "/templates/keanu-reeves.avif",
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 10
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 50,
+        "color": "#ffffff",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 30,
+        "color": "#d1d5db",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 750,
+        "fontSize": 24,
+        "color": "#9ca3af",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 150,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#d1d5db",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 650,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#d1d5db",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "johnny-depp",
+      "name": "Johnny Depp",
+      "tier": "Silver",
+      "path": "/templates/johnny-depp.avif",
+      "photo": {
+        "x": 50,
+        "y": 150,
+        "w": 700,
+        "h": 600,
+        "borderRadius": 0
+      },
+      "text": {
+        "x": 400,
+        "y": 850,
+        "fontSize": 45,
+        "color": "#ffd700",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 890,
+        "fontSize": 25,
+        "color": "#fef08a",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 100,
+        "fontSize": 20,
+        "color": "#fef08a",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 100,
+        "y": 80,
+        "fontSize": 18,
+        "color": "#fef08a",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 700,
+        "y": 80,
+        "fontSize": 18,
+        "color": "#fef08a",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "robert-downey-jr",
+      "name": "Robert Downey Jr.",
+      "tier": "Silver",
+      "path": "/templates/robert-downey-jr.avif",
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 20
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 50,
+        "color": "#ff0000",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 30,
+        "color": "#fca5a5",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 750,
+        "fontSize": 24,
+        "color": "#fca5a5",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 150,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#f87171",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 650,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#f87171",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "emily-compagno",
+      "name": "Emily Compagno",
+      "tier": "Silver",
+      "path": "/templates/emily-compagno.avif",
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 20
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 50,
+        "color": "#ff1493",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 30,
+        "color": "#ff69b4",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 750,
+        "fontSize": 24,
+        "color": "#ff69b4",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 150,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#ffb6c1",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 650,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#ffb6c1",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "kevin-costner",
+      "name": "Kevin Costner",
+      "tier": "Diamond",
+      "path": "/templates/kevin-costner.avif",
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 10
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 55,
+        "color": "#cd7f32",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 35,
+        "color": "#d2b48c",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 750,
+        "fontSize": 26,
+        "color": "#d2b48c",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 150,
+        "y": 800,
+        "fontSize": 22,
+        "color": "#deb887",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 650,
+        "y": 800,
+        "fontSize": 22,
+        "color": "#deb887",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "elon-musk",
+      "name": "Elon Musk",
+      "tier": "Platinum",
+      "path": "/templates/elon-musk.avif",
+      "qrCode": {
+        "x": 640,
+        "y": 800,
+        "size": 120
+      },
+      "perks": [
+        "Backstage Access",
+        "Meet & Greet",
+        "1-on-1 Q&A"
+      ],
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 10
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 50,
+        "color": "#00ffff",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 30,
+        "color": "#a5f3fc",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 780,
+        "fontSize": 26,
+        "color": "#67e8f9",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 100,
+        "y": 850,
+        "fontSize": 22,
+        "color": "#22d3ee",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 700,
+        "y": 850,
+        "fontSize": 22,
+        "color": "#22d3ee",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "jason-momoa",
+      "name": "Jason Momoa",
+      "tier": "Platinum",
+      "path": "/templates/jason-momoa.avif",
+      "qrCode": {
+        "x": 640,
+        "y": 800,
+        "size": 120
+      },
+      "perks": [
+        "Backstage Access",
+        "Meet & Greet",
+        "1-on-1 Q&A"
+      ],
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 10
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 50,
+        "color": "#ffd700",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 30,
+        "color": "#daa520",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 780,
+        "fontSize": 26,
+        "color": "#daa520",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 100,
+        "y": 850,
+        "fontSize": 22,
+        "color": "#ffd700",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 700,
+        "y": 850,
+        "fontSize": 22,
+        "color": "#ffd700",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "shaquille-oneal",
+      "name": "Shaquille O'Neal",
+      "tier": "Platinum",
+      "path": "/templates/shaquille-oneal.avif",
+      "qrCode": {
+        "x": 640,
+        "y": 800,
+        "size": 120
+      },
+      "perks": [
+        "Backstage Access",
+        "Meet & Greet",
+        "1-on-1 Q&A"
+      ],
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 10
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 60,
+        "color": "#552583",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 35,
+        "color": "#fdb927",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 780,
+        "fontSize": 28,
+        "color": "#fdb927",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 100,
+        "y": 850,
+        "fontSize": 24,
+        "color": "#552583",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 700,
+        "y": 850,
+        "fontSize": 24,
+        "color": "#552583",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "will-parfitt",
+      "name": "Will Parfitt",
+      "tier": "Diamond",
+      "path": "/templates/will-parfitt.avif",
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 10
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 50,
+        "color": "#818cf8",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 30,
+        "color": "#a5b4fc",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 750,
+        "fontSize": 24,
+        "color": "#a5b4fc",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 150,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#c4b5fd",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 650,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#c4b5fd",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    }
+  ]
+}
