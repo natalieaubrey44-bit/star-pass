@@ -15,6 +15,7 @@ import { PageSection } from "./components/PageSection";
 import type { Tier, CartItem, CartItemStored } from "./types";
 import { useAuth } from "./context/AuthContext";
 import { Auth } from "./pages/Auth";
+import { AuthConfirm } from "./pages/AuthConfirm";
 import { Dashboard } from "./pages/Dashboard";
 import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
@@ -215,6 +216,7 @@ export default function App() {
 
       <Routes>
         <Route path="/login" element={<Auth />} />
+        <Route path="/auth/confirm" element={<AuthConfirm />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
