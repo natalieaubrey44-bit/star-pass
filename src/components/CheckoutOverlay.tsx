@@ -347,7 +347,15 @@ export const CheckoutOverlay = ({
                       Payment Declined
                     </h3>
                     <p className="text-gray-500 font-medium leading-relaxed max-w-sm mx-auto">
-                      We were unable to process your payment at this time. Please try a different payment method or contact your bank.
+                      We were unable to process your payment at this time. Please try a different payment method or contact{" "}
+                    <a
+                      href="https://wa.me/16397631917"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-indigo-600 hover:text-indigo-700 underline underline-offset-2 transition-colors"
+                    >
+                      support
+                    </a>.
                     </p>
                     <p className="text-xs font-mono text-gray-400 mt-2">
                       Error code: TRANSACTION_DECLINED_4021
