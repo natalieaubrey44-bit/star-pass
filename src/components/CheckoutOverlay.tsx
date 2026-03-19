@@ -1,5 +1,5 @@
-/**
- * CheckoutOverlay.tsx — Modal flow: shipping → payment → success.
+﻿/**
+ * CheckoutOverlay.tsx â€” Modal flow: shipping â†’ payment â†’ success.
  * Resets stage and locks body scroll when open. Production: wire payment to real gateway and clear cart on success.
  */
 import React, { useState } from "react";
@@ -42,7 +42,7 @@ export const CheckoutOverlay = ({
   cartItems,
   onSuccess,
 }: CheckoutOverlayProps) => {
-  const [stage, setStage] = useState<"shipping" | "payment" | "success" | "error">(
+  const [stage, setStage] = useState<"shipping" | "payment" | "success">(
     "shipping",
   );
   const [error, setError] = useState<string | null>(null);
@@ -95,11 +95,14 @@ export const CheckoutOverlay = ({
     setIsSubmitting(true);
     setError(null);
 
-    // Simulate a processing delay, then always decline — no DB write, cart preserved
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Always decline at this step - no DB write, cart preserved
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
+    const paymentError =
+      "Payment could not be processed. Error code: TRANSACTION_DECLINED_4021";
+    setError(paymentError);
+    toast.error(paymentError);
     setIsSubmitting(false);
-    setStage("error");
   };
 
   return (
@@ -125,21 +128,6 @@ export const CheckoutOverlay = ({
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="relative w-full max-w-xl bg-white rounded-4xl shadow-2xl overflow-hidden"
           >
-            {/* Error Notification */}
-            <AnimatePresence>
-              {error && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="bg-red-500 text-white px-8 py-4 flex items-center gap-3 overflow-hidden"
-                >
-                  <AlertCircle className="w-5 h-5 shrink-0" />
-                  <p className="text-sm font-bold">{error}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
             {/* Header */}
             <div className="bg-gray-50 border-b border-gray-100 p-6 flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -161,13 +149,11 @@ export const CheckoutOverlay = ({
                   </button>
                 )}
                 <div className="flex items-center gap-3">
-                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shadow-lg", stage === "error" ? "bg-red-500 shadow-red-100" : "bg-indigo-600 shadow-indigo-100")}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg bg-indigo-600 shadow-indigo-100">
                     {stage === "shipping" ? (
                       <Truck className="text-white w-5 h-5" />
                     ) : stage === "payment" ? (
                       <CreditCard className="text-white w-5 h-5" />
-                    ) : stage === "error" ? (
-                      <AlertCircle className="text-white w-5 h-5" />
                     ) : (
                       <CheckCircle2 className="text-white w-5 h-5" />
                     )}
@@ -181,9 +167,7 @@ export const CheckoutOverlay = ({
                         ? "Shipping Details"
                         : stage === "payment"
                           ? "Payment Method"
-                          : stage === "error"
-                            ? "Payment Failed"
-                            : "Success!"}
+                          : "Success!"}
                     </h2>
                     <p className="text-gray-500 text-xs font-medium">
                       Finalizing order for {itemCount}{" "}
@@ -334,59 +318,30 @@ export const CheckoutOverlay = ({
                     </div>
                   </div>
 
-                  <div className="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 flex items-center gap-4">
-                    <ShieldCheck className="w-6 h-6 text-indigo-600 shrink-0" />
-                    <p className="text-xs text-indigo-900 font-medium leading-relaxed">
-                      Your payment is secured with industry-standard 256-bit
-                      encryption.
-                    </p>
-                  </div>
-
-                  <Button
-                    onClick={handlePayment}
-                    isLoading={isSubmitting}
-                    className="w-full"
-                  >
-                    Complete Payment - ${totalPrice}.00
-                  </Button>
+                <div className="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 flex items-center gap-4">
+                  <ShieldCheck className="w-6 h-6 text-indigo-600 shrink-0" />
+                  <p className="text-xs text-indigo-900 font-medium leading-relaxed">
+                    Your payment is secured with industry-standard 256-bit
+                    encryption.
+                  </p>
                 </div>
-              )}
 
-              {stage === "error" && (
-                <div className="text-center py-8 space-y-6">
-                  <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto">
-                    <AlertCircle className="w-12 h-12 text-red-500" />
+                <Button
+                  onClick={handlePayment}
+                  isLoading={isSubmitting}
+                  className="w-full"
+                >
+                  Continue Payment - ${totalPrice}.00
+                </Button>
+
+                {error && (
+                  <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 flex items-start gap-2">
+                    <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                    <p className="font-medium">{error}</p>
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-gray-900">
-                      Payment Declined
-                    </h3>
-                    <p className="text-gray-500 font-medium leading-relaxed max-w-sm mx-auto">
-                      We were unable to process your payment at this time. Please try a different payment method or contact your bank.
-                    </p>
-                    <p className="text-xs text-gray-400 font-mono mt-2">
-                      Error code: TRANSACTION_DECLINED_4021
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-3">
-                    <Button
-                      onClick={() => setStage("payment")}
-                      variant="primary"
-                      className="w-full"
-                    >
-                      Try Again
-                    </Button>
-                    <Button
-                      onClick={onClose}
-                      variant="ghost"
-                      size="sm"
-                      className="w-full"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
+            )}
 
               {stage === "success" && (
                 <div className="text-center py-8 space-y-6 relative overflow-hidden">
@@ -447,7 +402,7 @@ export const CheckoutOverlay = ({
             </div>
 
             {/* Summary Footer */}
-            {stage !== "success" && stage !== "error" && (
+            {stage !== "success" && (
               <div className="bg-gray-50 p-6 border-t border-gray-100 flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">
