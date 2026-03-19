@@ -15,7 +15,6 @@ import {
   ChevronDown,
   ArrowLeft,
 } from "lucide-react";
-import { US_LOCATIONS } from "../lib/us-locations";
 import { onlyDigits, onlyAddress, cn } from "../lib/utils";
 import { Button } from "./ui/Button";
 import { LocationSelect } from "./LocationSelect";
@@ -42,7 +41,7 @@ export const CheckoutOverlay = ({
   cartItems,
   onSuccess,
 }: CheckoutOverlayProps) => {
-  const [stage, setStage] = useState<"shipping" | "payment" | "success">(
+  const [stage, setStage] = useState<"shipping" | "payment" | "success" | "error">(
     "shipping",
   );
   const [error, setError] = useState<string | null>(null);
@@ -95,14 +94,11 @@ export const CheckoutOverlay = ({
     setIsSubmitting(true);
     setError(null);
 
-    // Always decline at this step - no DB write, cart preserved
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    // Simulate processing delay then always decline — no DB write, cart preserved
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    const paymentError =
-      "Payment could not be processed. Error code: TRANSACTION_DECLINED_4021";
-    setError(paymentError);
-    toast.error(paymentError);
     setIsSubmitting(false);
+    setStage("error");
   };
 
   return (
@@ -149,11 +145,13 @@ export const CheckoutOverlay = ({
                   </button>
                 )}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg bg-indigo-600 shadow-indigo-100">
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shadow-lg", stage === "error" ? "bg-red-500 shadow-red-100" : "bg-indigo-600 shadow-indigo-100")}>
                     {stage === "shipping" ? (
                       <Truck className="text-white w-5 h-5" />
                     ) : stage === "payment" ? (
                       <CreditCard className="text-white w-5 h-5" />
+                    ) : stage === "error" ? (
+                      <AlertCircle className="text-white w-5 h-5" />
                     ) : (
                       <CheckCircle2 className="text-white w-5 h-5" />
                     )}
@@ -167,7 +165,9 @@ export const CheckoutOverlay = ({
                         ? "Shipping Details"
                         : stage === "payment"
                           ? "Payment Method"
-                          : "Success!"}
+                          : stage === "error"
+                            ? "Payment Failed"
+                            : "Order Placed!"}
                     </h2>
                     <p className="text-gray-500 text-xs font-medium">
                       Finalizing order for {itemCount}{" "}
@@ -334,14 +334,44 @@ export const CheckoutOverlay = ({
                   Continue Payment - ${totalPrice}.00
                 </Button>
 
-                {error && (
-                  <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 flex items-start gap-2">
-                    <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
-                    <p className="font-medium">{error}</p>
-                  </div>
-                )}
               </div>
             )}
+
+              {stage === "error" && (
+                <div className="text-center py-8 space-y-6">
+                  <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                    <AlertCircle className="w-12 h-12 text-red-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold text-gray-900">
+                      Payment Declined
+                    </h3>
+                    <p className="text-gray-500 font-medium leading-relaxed max-w-sm mx-auto">
+                      We were unable to process your payment at this time. Please try a different payment method or contact your bank.
+                    </p>
+                    <p className="text-xs font-mono text-gray-400 mt-2">
+                      Error code: TRANSACTION_DECLINED_4021
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <Button
+                      onClick={() => { setStage("payment"); setError(null); }}
+                      variant="primary"
+                      className="w-full"
+                    >
+                      Try Again
+                    </Button>
+                    <Button
+                      onClick={onClose}
+                      variant="ghost"
+                      size="sm"
+                      className="w-full"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
 
               {stage === "success" && (
                 <div className="text-center py-8 space-y-6 relative overflow-hidden">
@@ -402,7 +432,7 @@ export const CheckoutOverlay = ({
             </div>
 
             {/* Summary Footer */}
-            {stage !== "success" && (
+            {stage !== "success" && stage !== "error" && (
               <div className="bg-gray-50 p-6 border-t border-gray-100 flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">
