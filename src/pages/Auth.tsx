@@ -149,9 +149,10 @@ export const Auth: React.FC = () => {
       otpRefs.current[index + 1]?.focus();
     }
 
-    // Auto-submit when all digits are filled
+    // Auto-submit when all 6 slots are filled
+    // Check the array directly — "123456".includes("") is always true in JS
     const fullCode = newOtp.join("");
-    if (fullCode.length === OTP_LENGTH && !fullCode.includes("")) {
+    if (newOtp.every((d) => d !== "")) {
       handleVerifyOtp(fullCode);
     }
   };
@@ -328,15 +329,15 @@ export const Auth: React.FC = () => {
               ))}
             </div>
 
-            {/* Verifying spinner */}
-            {loading && (
-              <div className="flex justify-center mb-6">
-                <div className="flex items-center gap-2 text-sm text-indigo-600 font-medium">
-                  <div className="w-4 h-4 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
-                  Verifying...
-                </div>
-              </div>
-            )}
+            {/* Confirm button + verifying spinner */}
+            <Button
+              onClick={() => handleVerifyOtp(otp.join(""))}
+              disabled={otp.some((d) => d === "") || loading}
+              isLoading={loading}
+              className="w-full mb-6"
+            >
+              Confirm Code
+            </Button>
 
             {/* Resend + change email */}
             <div className="flex flex-col items-center gap-3 mt-2">
