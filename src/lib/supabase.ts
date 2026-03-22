@@ -22,3 +22,14 @@ export const supabase = createClient(
     },
   },
 );
+
+const REMEMBER_ME_KEY = 'starpass_remember_me';
+
+export const getRememberMePreference = (): boolean => {
+  const stored = localStorage.getItem(REMEMBER_ME_KEY);
+  return stored === null ? true : stored === 'true';
+};
+
+export const setRememberMePreference = (preference: boolean): void => {
+  localStorage.setItem(REMEMBER_ME_KEY, String(preference));
+};
