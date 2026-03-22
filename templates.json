@@ -3,7 +3,6 @@
     {
       "id": "keanu-reeves",
       "name": "Keanu Reeves",
-      "tier": "Silver",
       "path": "/templates/keanu-reeves.avif",
       "photo": {
         "x": 100,
@@ -56,7 +55,6 @@
     {
       "id": "johnny-depp",
       "name": "Johnny Depp",
-      "tier": "Silver",
       "path": "/templates/johnny-depp.avif",
       "photo": {
         "x": 50,
@@ -109,7 +107,6 @@
     {
       "id": "robert-downey-jr",
       "name": "Robert Downey Jr.",
-      "tier": "Silver",
       "path": "/templates/robert-downey-jr.avif",
       "photo": {
         "x": 100,
@@ -162,7 +159,6 @@
     {
       "id": "emily-compagno",
       "name": "Emily Compagno",
-      "tier": "Silver",
       "path": "/templates/emily-compagno.avif",
       "photo": {
         "x": 100,
@@ -215,7 +211,6 @@
     {
       "id": "kevin-costner",
       "name": "Kevin Costner",
-      "tier": "Diamond",
       "path": "/templates/kevin-costner.avif",
       "photo": {
         "x": 100,
@@ -268,14 +263,7 @@
     {
       "id": "elon-musk",
       "name": "Elon Musk",
-      "tier": "Platinum",
       "path": "/templates/elon-musk.avif",
-      "qrCode": {
-        "x": 640,
-        "y": 800,
-        "size": 120
-      },
-      "perks": ["Backstage Access", "Meet & Greet", "1-on-1 Q&A"],
       "photo": {
         "x": 100,
         "y": 200,
@@ -327,14 +315,7 @@
     {
       "id": "jason-momoa",
       "name": "Jason Momoa",
-      "tier": "Platinum",
       "path": "/templates/jason-momoa.avif",
-      "qrCode": {
-        "x": 640,
-        "y": 800,
-        "size": 120
-      },
-      "perks": ["Backstage Access", "Meet & Greet", "1-on-1 Q&A"],
       "photo": {
         "x": 100,
         "y": 200,
@@ -386,14 +367,7 @@
     {
       "id": "shaquille-oneal",
       "name": "Shaquille O'Neal",
-      "tier": "Platinum",
       "path": "/templates/shaquille-oneal.avif",
-      "qrCode": {
-        "x": 640,
-        "y": 800,
-        "size": 120
-      },
-      "perks": ["Backstage Access", "Meet & Greet", "1-on-1 Q&A"],
       "photo": {
         "x": 100,
         "y": 200,
@@ -445,7 +419,6 @@
     {
       "id": "will-parfitt",
       "name": "Will Parfitt",
-      "tier": "Diamond",
       "path": "/templates/will-parfitt.avif",
       "photo": {
         "x": 100,
@@ -498,7 +471,6 @@
     {
       "id": "carlos-alcaraz",
       "name": "Carlos Alcaraz",
-      "tier": "Diamond",
       "path": "/templates/carlos-alcaraz.avif",
       "photo": {
         "x": 100,
