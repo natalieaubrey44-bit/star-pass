@@ -275,11 +275,7 @@
         "y": 800,
         "size": 120
       },
-      "perks": [
-        "Backstage Access",
-        "Meet & Greet",
-        "1-on-1 Q&A"
-      ],
+      "perks": ["Backstage Access", "Meet & Greet", "1-on-1 Q&A"],
       "photo": {
         "x": 100,
         "y": 200,
@@ -338,11 +334,7 @@
         "y": 800,
         "size": 120
       },
-      "perks": [
-        "Backstage Access",
-        "Meet & Greet",
-        "1-on-1 Q&A"
-      ],
+      "perks": ["Backstage Access", "Meet & Greet", "1-on-1 Q&A"],
       "photo": {
         "x": 100,
         "y": 200,
@@ -401,11 +393,7 @@
         "y": 800,
         "size": 120
       },
-      "perks": [
-        "Backstage Access",
-        "Meet & Greet",
-        "1-on-1 Q&A"
-      ],
+      "perks": ["Backstage Access", "Meet & Greet", "1-on-1 Q&A"],
       "photo": {
         "x": 100,
         "y": 200,
@@ -503,6 +491,59 @@
         "y": 800,
         "fontSize": 20,
         "color": "#c4b5fd",
+        "textAlign": "right",
+        "fontWeight": "normal"
+      }
+    },
+    {
+      "id": "carlos-alcaraz",
+      "name": "Carlos Alcaraz",
+      "tier": "Diamond",
+      "path": "/templates/carlos-alcaraz.avif",
+      "photo": {
+        "x": 100,
+        "y": 200,
+        "w": 600,
+        "h": 500,
+        "borderRadius": 10
+      },
+      "text": {
+        "x": 400,
+        "y": 120,
+        "fontSize": 50,
+        "color": "#f97316",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      },
+      "location": {
+        "x": 400,
+        "y": 170,
+        "fontSize": 30,
+        "color": "#fed7aa",
+        "textAlign": "center",
+        "fontWeight": "normal"
+      },
+      "memberId": {
+        "x": 400,
+        "y": 750,
+        "fontSize": 24,
+        "color": "#fed7aa",
+        "textAlign": "center",
+        "fontWeight": "mono"
+      },
+      "memberSince": {
+        "x": 150,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#fdba74",
+        "textAlign": "left",
+        "fontWeight": "normal"
+      },
+      "validUntil": {
+        "x": 650,
+        "y": 800,
+        "fontSize": 20,
+        "color": "#fdba74",
         "textAlign": "right",
         "fontWeight": "normal"
       }
