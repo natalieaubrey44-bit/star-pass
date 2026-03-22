@@ -4,10 +4,18 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    root: '.',
     plugins: [react()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
+      },
+    },
+    build: {
+      rollupOptions: {
+        input: {
+          index: path.resolve(__dirname, 'index.html'),
+        },
       },
     },
     server: {
