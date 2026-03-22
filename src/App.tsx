@@ -119,7 +119,6 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Auth />} />
         <Route path="/auth/confirm" element={<AuthConfirm />} />
-        <Route path="/auth/confirm" element={<AuthConfirm />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />

@@ -12,61 +12,12 @@ if (!isSupabaseConfigured) {
   );
 }
 
-export const AUTH_STORAGE_KEY = 'starpass-auth';
-export const REMEMBER_ME_KEY = 'starpass_remember_me';
-
-export const getRememberMePreference = () => {
-  try {
-    const stored = localStorage.getItem(REMEMBER_ME_KEY);
-    if (stored === null) return true;
-    return stored === 'true';
-  } catch {
-    return true;
-  }
-};
-
-export const setRememberMePreference = (remember: boolean) => {
-  try {
-    localStorage.setItem(REMEMBER_ME_KEY, remember ? 'true' : 'false');
-    if (remember) {
-      sessionStorage.removeItem(AUTH_STORAGE_KEY);
-    } else {
-      localStorage.removeItem(AUTH_STORAGE_KEY);
-    }
-  } catch {
-    // ignore storage errors
-  }
-};
-
-const selectAuthStorage = () => {
-  try {
-    return getRememberMePreference() ? localStorage : sessionStorage;
-  } catch {
-    return localStorage;
-  }
-};
-
-const authStorage = {
-  getItem: (key: string) => selectAuthStorage().getItem(key),
-  setItem: (key: string, value: string) => selectAuthStorage().setItem(key, value),
-  removeItem: (key: string) => {
-    try {
-      localStorage.removeItem(key);
-      sessionStorage.removeItem(key);
-    } catch {
-      // ignore storage errors
-    }
-  },
-};
-
 export const supabase = createClient(
   supabaseUrl,
   supabaseAnonKey,
   {
     auth: {
       persistSession: true,
-      storageKey: AUTH_STORAGE_KEY,
-      storage: authStorage,
       detectSessionInUrl: true,
     },
   },
